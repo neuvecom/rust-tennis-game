@@ -5,12 +5,14 @@ use std::time::Duration;
 const COAT_SIZE: i32 = 64;
 
 // 描画処理
-fn draw() {
+fn draw(ball: f64) {
+    // ボールの位置の計算
+    let ball: i32 = (COAT_SIZE as f64 * ball).round() as i32;
     // 描画バッファの作成
     let mut buf = String::from(" ");
     buf += "|";
-    for _ in 0..COAT_SIZE {
-        buf += " ";
+    for i in 0..COAT_SIZE {
+        buf += if i == ball { "@" } else { " " };
     }
     buf += "|";
     // 描画
@@ -24,7 +26,7 @@ fn game_loop() {
     // ループ
     loop{
         // 描画処理
-        draw();
+        draw(0.0);
         // 時間処理
         time += Duration::from_nanos(16_666_667);
         if let Ok(dur) = time.duration_since(SystemTime::now()) {
