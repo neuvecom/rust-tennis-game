@@ -17,6 +17,12 @@ impl Game {
             ball: 0.0,
         }
     }
+
+    // ゲームの状態の更新
+    pub fn update(&mut self) {
+        // ボールの位置の更新
+        self.ball += 0.01;
+    }
 }
 
 // 描画処理
@@ -40,6 +46,8 @@ fn game_loop(game: &mut Game) {
     let mut time: SystemTime = SystemTime::now();
     // ループ
     loop{
+        // ゲームの状態の更新
+        game.update();
         // 描画処理
         draw(game.ball);
         // 時間処理
