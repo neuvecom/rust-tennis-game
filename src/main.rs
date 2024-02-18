@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    println!("\x1B[2J");
 }
