@@ -19,9 +19,11 @@ impl Game {
     }
 
     // ゲームの状態の更新
-    pub fn update(&mut self) {
+    pub fn update(&mut self) -> bool {
         // ボールの位置の更新
         self.ball += 0.01;
+        // ボールの位置の制限(真偽値を返す)
+        self.ball <= 1.0
     }
 }
 
@@ -46,8 +48,10 @@ fn game_loop(game: &mut Game) {
     let mut time: SystemTime = SystemTime::now();
     // ループ
     loop{
-        // ゲームの状態の更新
-        game.update();
+        // ゲームの状態の更新・ゲームの状態によるループの終了
+        if !game.update() {
+            break;
+        }
         // 描画処理
         draw(game.ball);
         // 時間処理
@@ -56,6 +60,8 @@ fn game_loop(game: &mut Game) {
             sleep(dur);
         }
     }
+    // ゲームオーバー
+    println!("*** Game Over ***");
 }
 
 fn main() {
