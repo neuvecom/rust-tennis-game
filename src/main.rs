@@ -4,6 +4,21 @@ use std::time::Duration;
 
 const COAT_SIZE: i32 = 64;
 
+// ゲームの状態(構造体)
+struct Game {
+    pub ball: f64,
+}
+
+// ゲームの状態(構造体)の実装
+impl Game {
+    // ゲームの状態の初期化
+    pub fn new() -> Self {
+        Self {  
+            ball: 0.0,
+        }
+    }
+}
+
 // 描画処理
 fn draw(ball: f64) {
     // ボールの位置の計算
@@ -20,13 +35,13 @@ fn draw(ball: f64) {
 }
 
 // ループ処理
-fn game_loop() {
+fn game_loop(game: &mut Game) {
     // 時間の初期化
     let mut time: SystemTime = SystemTime::now();
     // ループ
     loop{
         // 描画処理
-        draw(0.0);
+        draw(game.ball);
         // 時間処理
         time += Duration::from_nanos(16_666_667);
         if let Ok(dur) = time.duration_since(SystemTime::now()) {
@@ -39,5 +54,6 @@ fn main() {
     // 画面のクリア
     println!("\x1B[2J");
     // ゲームループ処理
-    game_loop();
+    let mut game: Game = Game::new();
+    game_loop(&mut game);
 }
