@@ -1,6 +1,6 @@
-use std::time::SystemTime;
-use std::thread::sleep;
-use std::time::Duration;
+use std::time::{SystemTime, Duration};
+use std::thread::{sleep, spawn};
+use std::io::{stdin, Stdin};
 
 const COAT_SIZE: i32 = 64;
 
@@ -64,9 +64,22 @@ fn game_loop(game: &mut Game) {
     println!("*** Game Over ***");
 }
 
+// サブメイン関数
+fn sub_main() -> ! {
+    // 初期化
+    let input: Stdin = stdin();
+    let mut buf: String = String::new();
+    // キーワード（標準入力）入力待ち
+    loop {
+        input.read_line(&mut buf).unwrap();
+    }
+}
+
 fn main() {
     // 画面のクリア
     println!("\x1B[2J");
+    // サブスレッドの生成（標準入力の監視）
+    spawn( || sub_main());
     // ゲームループ処理
     let mut game: Game = Game::new();
     game_loop(&mut game);
